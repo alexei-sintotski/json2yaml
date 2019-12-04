@@ -6,3 +6,9 @@ homepage: https://github.com/alexei-sintotski/json2yaml
 
 environment:
   sdk: ">=2.5.0 <3.0.0"
+
+dev_dependencies:
+  dependency_validator: ^1.0.0
+  test: ^1.8.0
+  test_coverage: ^0.3.0
+  yaml: ^2.2.0

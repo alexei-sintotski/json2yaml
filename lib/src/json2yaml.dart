@@ -22,6 +22,7 @@
  * SOFTWARE.
  */
 
-library json2yaml;
+import 'package:json2yaml/src/internal/render_to_yaml.dart';
 
-export 'src/json2yaml.dart';
+/// Converts JSON to YAML representation
+String json2yaml(Map<String, dynamic> json) => renderToYaml(json, 0);
