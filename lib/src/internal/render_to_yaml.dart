@@ -24,32 +24,34 @@
 
 // ignore_for_file: avoid_annotating_with_dynamic
 
-String renderToYaml(Map<String, dynamic> json, int nestingLevel) =>
-    json.entries.map((entry) => _formatEntry(entry, nestingLevel)).join('\n');
+import 'package:json2yaml/json2yaml.dart';
 
-String _formatEntry(MapEntry<String, dynamic> entry, int nesting) =>
-    '${_indentation(nesting)}${entry.key}:${_formatValue(entry.value, nesting)}';
+String renderToYaml(Map<String, dynamic> json, int nestingLevel, YamlStyle style) =>
+    json.entries.map((entry) => _formatEntry(entry, nestingLevel, style)).join('\n');
 
-String _formatValue(dynamic value, int nesting) {
+String _formatEntry(MapEntry<String, dynamic> entry, int nesting, YamlStyle style) =>
+    '${_indentation(nesting)}${entry.key}:${_formatValue(entry.value, nesting, style)}';
+
+String _formatValue(dynamic value, int nesting, YamlStyle style) {
   if (value is Map<String, dynamic>) {
-    return '\n${renderToYaml(value, nesting + 1)}';
+    return '\n${renderToYaml(value, nesting + 1, style)}';
   }
   if (value is List<dynamic>) {
-    return '\n${_formatList(value, nesting + 1)}';
+    return '\n${_formatList(value, nesting + 1, style)}';
   }
   if (value is String) {
     if (_isMultilineString(value)) {
       return ' |\n${value.split('\n').map((s) => '${_indentation(nesting + 1)}$s').join('\n')}';
     }
-    if (_containsSpecialCharacters(value) || _containsFloatingPointPattern(value)) {
+    if (_containsSpecialCharacters(value) || (_containsFloatingPointPattern(value) && style != YamlStyle.pubspecYaml)) {
       return ' "$value"';
     }
   }
   return ' $value';
 }
 
-String _formatList(List<dynamic> list, int nesting) =>
-    list.map((dynamic value) => '${_indentation(nesting)}-${_formatValue(value, nesting + 2)}').join('\n');
+String _formatList(List<dynamic> list, int nesting, YamlStyle style) =>
+    list.map((dynamic value) => '${_indentation(nesting)}-${_formatValue(value, nesting + 2, style)}').join('\n');
 
 String _indentation(int nesting) => _spaces(nesting * 2);
 String _spaces(int n) => ''.padRight(n, ' ');
