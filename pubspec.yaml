@@ -1,5 +1,5 @@
 name: json2yaml
-description: A new Flutter package project.
+description: Dart package to render JSON data to YAML
 version: 1.0.0
 author: Alexei Sintotski <alexei.sintotski@gmail.com>
 homepage: https://github.com/alexei-sintotski/json2yaml
