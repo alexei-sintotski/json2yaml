@@ -22,18 +22,24 @@
  * SOFTWARE.
  */
 
-import 'package:json2yaml/src/internal/render_to_yaml.dart';
+import 'package:json2yaml/json2yaml.dart';
 
-/// Yaml formatting control options
-enum YamlStyle {
-  generic,
-  pubspecYaml,
-  pubspecLock,
+// ignore_for_file: avoid_print
+
+void main() {
+  const developerData = {
+    'name': "Martin D'vloper",
+    'job': 'Developer',
+    'skill': 'Elite',
+    'employed': true,
+    'foods': ['Apple', 'Orange', 'Strawberry', 'Mango'],
+    'languages': {
+      'perl': 'Elite',
+      'python': 'Elite',
+      'pascal': 'Lame',
+    },
+    'education': '4 GCSEs\n3 A-Levels\nBSc in the Internet of Things'
+  };
+
+  print(json2yaml(developerData));
 }
-
-/// Converts JSON to YAML representation
-String json2yaml(
-  Map<String, dynamic> json, {
-  YamlStyle yamlStyle = YamlStyle.generic,
-}) =>
-    renderToYaml(json, 0, yamlStyle);
