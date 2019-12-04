@@ -91,12 +91,17 @@ void main() {
     });
 
     group('given string with .', () {
-      final result = json2yaml(stringWithDotJson);
-      test('it produces correct YAML', () {
-        expect(result, stringWithDotYaml);
+      test('it produces safe YAML by default', () {
+        expect(json2yaml(stringWithDotJson), stringWithDotWithQuotesYaml);
+      });
+      test('it produces YAML with qoutes for PubspecLock style', () {
+        expect(json2yaml(stringWithDotJson, yamlStyle: YamlStyle.pubspecLock), stringWithDotWithQuotesYaml);
+      });
+      test('it produces YAML without qoutes for PubspecYaml style', () {
+        expect(json2yaml(stringWithDotJson, yamlStyle: YamlStyle.pubspecYaml), stringWithDotWithoutQuotesYaml);
       });
       test('it preserves json structure', () {
-        expect(loadAsJson(result), stringWithDotJson);
+        expect(loadAsJson(json2yaml(stringWithDotJson)), stringWithDotJson);
       });
     });
 
@@ -189,8 +194,9 @@ education: |
   3 A-Levels
   BSc in the Internet of Things''';
 
-const stringWithDotJson = {'dot': '1.5'};
-const stringWithDotYaml = 'dot: "1.5"';
+const stringWithDotJson = {'dot': '1.5.0'};
+const stringWithDotWithQuotesYaml = 'dot: "1.5.0"';
+const stringWithDotWithoutQuotesYaml = 'dot: 1.5.0';
 
 const stringWithSpecialCharactersJson = {'url': 'https://pub.dartlang.org'};
 const stringWithSpecialCharactersYaml = 'url: "https://pub.dartlang.org"';

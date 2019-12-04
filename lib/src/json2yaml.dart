@@ -24,5 +24,16 @@
 
 import 'package:json2yaml/src/internal/render_to_yaml.dart';
 
+/// Yaml formatting control
+enum YamlStyle {
+  generic,
+  pubspecYaml,
+  pubspecLock,
+}
+
 /// Converts JSON to YAML representation
-String json2yaml(Map<String, dynamic> json) => renderToYaml(json, 0);
+String json2yaml(
+  Map<String, dynamic> json, {
+  YamlStyle yamlStyle = YamlStyle.generic,
+}) =>
+    renderToYaml(json, 0, yamlStyle);
