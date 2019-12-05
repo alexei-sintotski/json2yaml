@@ -1,4 +1,4 @@
-# json2yaml [![Build Status](https://travis-ci.com/alexei-sintotski/json2yaml.svg?branch=master)](https://travis-ci.org/alexei-sintotski/json2yaml) [![codecov](https://codecov.io/gh/alexei-sintotski/json2yaml/branch/master/graph/badge.svg)](https://codecov.io/gh/alexei-sintotski/json2yaml) [![pubspec_lock version](https://img.shields.io/pub/v/json2yaml?label=json2yaml)](https://pub.dev/packages/json2yaml)
+# json2yaml [![Build Status](https://travis-ci.com/alexei-sintotski/json2yaml.svg?branch=master)](https://travis-ci.com/alexei-sintotski/json2yaml) [![codecov](https://codecov.io/gh/alexei-sintotski/json2yaml/branch/master/graph/badge.svg)](https://codecov.io/gh/alexei-sintotski/json2yaml) [![pubspec_lock version](https://img.shields.io/pub/v/json2yaml?label=json2yaml)](https://pub.dev/packages/json2yaml)
 Dart package to render JSON data to YAML
 
 ## json2yaml()
