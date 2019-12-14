@@ -114,6 +114,16 @@ void main() {
         expect(loadAsJson(result), stringWithSpecialCharactersJson);
       });
     });
+
+    group('given json with null value', () {
+      final result = json2yaml(jsonWithNullValue);
+      test('it produces correct YAML', () {
+        expect(result, yamlWithNullValue);
+      });
+      test('it preserves json structure', () {
+        expect(loadAsJson(result), jsonWithNullValue);
+      });
+    });
   });
 }
 
@@ -200,3 +210,6 @@ const stringWithDotWithoutQuotesYaml = 'dot: 1.5.0';
 
 const stringWithSpecialCharactersJson = {'url': 'https://pub.dartlang.org'};
 const stringWithSpecialCharactersYaml = 'url: "https://pub.dartlang.org"';
+
+const jsonWithNullValue = {'entry': null};
+const yamlWithNullValue = 'entry:';
