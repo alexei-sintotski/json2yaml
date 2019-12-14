@@ -24,7 +24,7 @@
 
 // ignore_for_file: avoid_annotating_with_dynamic
 
-import 'package:json2yaml/json2yaml.dart';
+import '../yaml_style.dart';
 
 String renderToYaml(Map<String, dynamic> json, int nestingLevel, YamlStyle style) =>
     json.entries.map((entry) => _formatEntry(entry, nestingLevel, style)).join('\n');

@@ -22,7 +22,9 @@
  * SOFTWARE.
  */
 
-library json2yaml;
-
-export 'src/json2yaml.dart';
-export 'src/yaml_style.dart';
+/// Yaml formatting control options
+enum YamlStyle {
+  generic,
+  pubspecYaml,
+  pubspecLock,
+}

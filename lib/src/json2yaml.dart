@@ -22,14 +22,8 @@
  * SOFTWARE.
  */
 
-import 'package:json2yaml/src/internal/render_to_yaml.dart';
-
-/// Yaml formatting control options
-enum YamlStyle {
-  generic,
-  pubspecYaml,
-  pubspecLock,
-}
+import 'internal/render_to_yaml.dart';
+import 'yaml_style.dart';
 
 /// Converts JSON to YAML representation
 String json2yaml(

@@ -1,11 +1,10 @@
 name: json2yaml
 description: Dart package to render JSON data to YAML
 version: 1.0.0+3
-author: Alexei Sintotski <alexei.sintotski@gmail.com>
 homepage: https://github.com/alexei-sintotski/json2yaml
 
 environment:
-  sdk: ">=2.5.0 <3.0.0"
+  sdk: ">=2.7.0 <3.0.0"
 
 dev_dependencies:
   dependency_validator: ^1.0.0
