@@ -47,6 +47,9 @@ String _formatValue(dynamic value, int nesting, YamlStyle style) {
       return ' "$value"';
     }
   }
+  if (value == null) {
+    return '';
+  }
   return ' $value';
 }
 
