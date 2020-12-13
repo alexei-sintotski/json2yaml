@@ -24,7 +24,7 @@
 
 /// Yaml formatting control options
 enum YamlStyle {
-  /// Default formatting style applicable to most of situations
+  /// Default formatting style applicable in most cases
   generic,
 
   /// YAML formatting style following pubspec.yaml formatting conventions
