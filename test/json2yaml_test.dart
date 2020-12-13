@@ -95,10 +95,16 @@ void main() {
         expect(json2yaml(stringWithDotJson), stringWithDotWithQuotesYaml);
       });
       test('it produces YAML with qoutes for PubspecLock style', () {
-        expect(json2yaml(stringWithDotJson, yamlStyle: YamlStyle.pubspecLock), stringWithDotWithQuotesYaml);
+        expect(
+          json2yaml(stringWithDotJson, yamlStyle: YamlStyle.pubspecLock),
+          stringWithDotWithQuotesYaml,
+        );
       });
       test('it produces YAML without qoutes for PubspecYaml style', () {
-        expect(json2yaml(stringWithDotJson, yamlStyle: YamlStyle.pubspecYaml), stringWithDotWithoutQuotesYaml);
+        expect(
+          json2yaml(stringWithDotJson, yamlStyle: YamlStyle.pubspecYaml),
+          stringWithDotWithoutQuotesYaml,
+        );
       });
       test('it preserves json structure', () {
         expect(loadAsJson(json2yaml(stringWithDotJson)), stringWithDotJson);

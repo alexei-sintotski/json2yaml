@@ -1,3 +1,3 @@
 #!/bin/bash -ex
 
-dartfmt --overwrite --fix --line-length=120  "$@" .
+dartfmt --overwrite --fix "$@" .
