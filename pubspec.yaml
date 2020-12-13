@@ -1,6 +1,6 @@
 name: json2yaml
 description: Dart package to format JSON data to YAML. Supports formatting conventions of pubspec files.
-version: 1.0.1
+version: 1.0.1+1
 homepage: https://github.com/alexei-sintotski/json2yaml
 
 environment:
