@@ -40,6 +40,8 @@ String json2yaml(
   YamlStyle yamlStyle = YamlStyle.generic,
 }) =>
     _renderToYaml(json, 0, yamlStyle)
+
+        /// to make the formatting cleaner with fewer blank lines
         .replaceAll(RegExp(r'(?<=\n\s*)\-\s\s*'), '- ');
 
 String _renderToYaml(
@@ -74,11 +76,16 @@ String _formatValue(
   }
   if (value is String) {
     if (_isMultilineString(value)) {
+      /// if multiline but has characters that need to be escaped, we just
+      /// quote the whole line, and escape those characters
       if (_containsEscapeCharacters(value)) {
         return ' "${_withEscapes(value)}"';
       } else {
         var finalString = ' |2';
         final split = value.split('\n');
+
+        /// otherwise, we go ahead and format the string into more easily
+        /// readable lines
         for (var s = 0; s < split.length; s++) {
           finalString = [
             finalString,
@@ -91,6 +98,10 @@ String _formatValue(
         return '$finalString"';
       }
     }
+
+    /// if the String contains special characters, escape characters, quotes,
+    /// or begins or ends with blank space (which yaml interprets differently
+    /// than some other formats), we quote the whoe string again
     if (_containsSpecialCharacters(value) ||
         _containsEscapeCharacters(value) ||
         value.contains('"') ||
@@ -100,9 +111,14 @@ String _formatValue(
             style != YamlStyle.pubspecYaml)) {
       return ' "${_withEscapes(value)}"';
     }
+
+    /// checks if it is an integer or a double
     if (_isNumber(value)) {
       return " '$value'";
     }
+
+    /// checks if the string is [true], [false], or [null], and quotes them or
+    /// else yaml will think they are booleans or null
     if (_isBooleanOrNullString(value)) {
       return " '$value'";
     }
