@@ -22,6 +22,8 @@
  * SOFTWARE.
  */
 
+// ignore_for_file: prefer_if_elements_to_conditional_expressions
+
 /// Yaml formatting control options
 enum YamlStyle {
   /// Default formatting style applicable in most cases
@@ -81,7 +83,7 @@ String _formatValue(
       if (_containsEscapeCharacters(value)) {
         return ' "${_withEscapes(value)}"';
       } else {
-        var finalString = ' |2';
+        var finalString = ' |-';
         final split = value.split('\n');
 
         /// otherwise, we go ahead and format the string into more easily
