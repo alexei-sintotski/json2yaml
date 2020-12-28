@@ -83,7 +83,7 @@ String _formatValue(
       if (_containsEscapeCharacters(value)) {
         return ' "${_withEscapes(value)}"';
       } else {
-        var finalString = ' |-';
+        var finalString = ' |2';
         final split = value.split('\n');
 
         /// otherwise, we go ahead and format the string into more easily
