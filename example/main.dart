@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-import 'package:json2yaml/json2yaml.dart';
+import '../lib/json2yaml.dart';
 
 // ignore_for_file: avoid_print
 
