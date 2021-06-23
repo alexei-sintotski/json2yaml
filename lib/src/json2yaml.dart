@@ -93,7 +93,7 @@ String _formatList(List<dynamic> list, int nesting, YamlStyle style) => list
     .join('\n');
 
 String _indentation(int nesting) => _spaces(nesting * 2);
-String _spaces(int n) => ''.padRight(n, ' ');
+String _spaces(int n) => ''.padRight(n);
 
 bool _isMultilineString(String s) => s.contains('\n');
 
