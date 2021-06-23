@@ -1,3 +1,5 @@
+## [2.0.0] - Migrated to null-safety
+
 ## [1.0.1+1] - Better compliance to pub.dev quality requirements
 * Migration to Dart 2.10
 * Code checks against recently introduced dart linter rules
