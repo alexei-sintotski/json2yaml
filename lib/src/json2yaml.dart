@@ -63,8 +63,14 @@ String _formatEntry(
     )}';
 
 String _formatValue(dynamic value, int nesting, YamlStyle style) {
-  if (value is Map<String, dynamic>) {
-    return '\n${_renderToYaml(value, nesting + 1, style)}';
+  if (value is Map && value.isNotEmpty && value.keys.first is String) {
+    final mappedvalue = value.map<String, dynamic>(
+      (dynamic key, dynamic value) => MapEntry<String, dynamic>(
+        key as String,
+        value,
+      ),
+    );
+    return '\n${_renderToYaml(mappedvalue, nesting + 1, style)}';
   }
   if (value is List<dynamic>) {
     return '\n${_formatList(value, nesting + 1, style)}';
