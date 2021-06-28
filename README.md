@@ -31,7 +31,7 @@ To use json2yaml, add the following dependency to pubspec.yaml:
 
 ```
 dependencies:
-  json2yaml: ^1.0.0
+  json2yaml: ^2.0.0
 ```
 
 ## Advanced usage: YAML formatting styles
