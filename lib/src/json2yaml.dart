@@ -22,6 +22,8 @@
  * SOFTWARE.
  */
 
+import 'package:meta/meta.dart';
+
 /// Yaml formatting control options
 enum YamlStyle {
   /// Default formatting style applicable in most cases
@@ -39,67 +41,194 @@ String json2yaml(
   Map<String, dynamic> json, {
   YamlStyle yamlStyle = YamlStyle.generic,
 }) =>
-    _renderToYaml(json, 0, yamlStyle);
+    _separatePubspecYamlSections(
+      _condense(_formatObject(
+          value: json,
+          context: _Context(
+            yamlStyle: yamlStyle,
+            nesting: 0,
+          ))),
+      yamlStyle,
+    );
 
-String _renderToYaml(
-  Map<String, dynamic> json,
-  int nestingLevel,
-  YamlStyle style,
-) =>
-    json.entries
-        .map((entry) => _formatEntry(
-              entry,
-              nestingLevel,
-              style,
-            ))
-        .join('\n');
-
-String _formatEntry(
-        MapEntry<String, dynamic> entry, int nesting, YamlStyle style) =>
-    '${_indentation(nesting)}${entry.key}:${_formatValue(
-      entry.value,
-      nesting,
-      style,
-    )}';
-
-String _formatValue(dynamic value, int nesting, YamlStyle style) {
-  if (value is Map<String, dynamic>) {
-    return '\n${_renderToYaml(value, nesting + 1, style)}';
-  }
-  if (value is List<dynamic>) {
-    return '\n${_formatList(value, nesting + 1, style)}';
-  }
-  if (value is String) {
-    if (_isMultilineString(value)) {
-      return ' |\n${value.split('\n').map(
-            (s) => '${_indentation(nesting + 1)}$s',
-          ).join('\n')}';
-    }
-    if (_containsSpecialCharacters(value) ||
-        (_containsFloatingPointPattern(value) &&
-            style != YamlStyle.pubspecYaml)) {
-      return ' "$value"';
-    }
-  }
-  if (value == null) {
+String _formatObject({
+  required dynamic value,
+  required _Context context,
+}) {
+  if (value is Map) {
+    return _formatStructure(
+      structure: value as Map<String, dynamic>,
+      context: context,
+    );
+  } else if (value is Iterable) {
+    return _formatCollection(
+      collection: value,
+      context: context,
+    );
+  } else if (value is String) {
+    return _isMultilineString(value)
+        ? _formatMultilineString(value, context)
+        : _formatSingleLineString(value, context);
+  } else if (value == null) {
     return '';
+  } else {
+    return '$value';
   }
-  return ' $value';
 }
 
-String _formatList(List<dynamic> list, int nesting, YamlStyle style) => list
-    .map((dynamic value) =>
-        '${_indentation(nesting)}-${_formatValue(value, nesting + 2, style)}')
-    .join('\n');
+String _formatStructure({
+  required Map<String, dynamic> structure,
+  required _Context context,
+}) {
+  String separator_(MapEntry<String, dynamic> e) =>
+      e.value is Map ? '\n${_indentation(context.nest())}' : ' ';
 
-String _indentation(int nesting) => _spaces(nesting * 2);
-String _spaces(int n) => ''.padRight(n);
+  if (structure.isEmpty) {
+    return '';
+  }
+  final entries = structure.entries;
+  final firstElement = entries.first;
+  final first = '${firstElement.key}:${separator_(firstElement)}${_formatObject(
+    value: firstElement.value,
+    context: context.nest(),
+  )}\n';
+  final rest = entries
+      .skip(1)
+      .map((e) => '${_indentation(context)}${e.key}:${separator_(e)}'
+          '${_formatObject(value: e.value, context: context.nest())}')
+      .join('\n');
+  return '$first$rest';
+}
 
-bool _isMultilineString(String s) => s.contains('\n');
+String _formatCollection({
+  required Iterable<dynamic> collection,
+  required _Context context,
+}) {
+  if (collection.isEmpty) {
+    return '';
+  }
+  return '\n${collection.map((dynamic e) => '${_indentation(context)}- '
+      '${_formatObject(
+        value: e,
+        context: context.nest(),
+      )}').join('\n')}\n';
+}
 
-bool _containsFloatingPointPattern(String s) =>
-    s.contains(RegExp(r'[0-9]\.[0-9]'));
+String _condense(String yaml) => _endWithEol(
+      yaml
+          .split('\n')
+          .map((s) => s.trimRight())
+          .where((s) => s.isNotEmpty)
+          .join('\n'),
+    );
+
+String _endWithEol(String s) => '$s\n';
+
+String _separatePubspecYamlSections(String yaml, YamlStyle yamlStyle) =>
+    yamlStyle == YamlStyle.pubspecYaml
+        ? yaml
+            .split('\n')
+            .map((s) => _shouldPubspecYamlLineBeSeparated(s) ? '\n$s' : s)
+            .join('\n')
+        : yaml;
+
+bool _shouldPubspecYamlLineBeSeparated(String yamlLine) =>
+    yamlLine.isNotEmpty &&
+    !_startsOfPubspecYamlLinesKeptTogether.any((s) => yamlLine.startsWith(s));
+
+@immutable
+class _Context {
+  const _Context({
+    required this.yamlStyle,
+    required this.nesting,
+  });
+
+  final YamlStyle yamlStyle;
+  final int nesting;
+
+  _Context nest() => _Context(
+        yamlStyle: yamlStyle,
+        nesting: nesting + 1,
+      );
+}
+
+const _spacesPerNestingLevel = 2;
+String _indentation(_Context ctx) => ''.padLeft(
+      ctx.nesting * _spacesPerNestingLevel,
+    );
+
+bool _isMultilineString(String value) => value.trim().contains('\n');
+
+String _formatMultilineString(String value, _Context ctx) =>
+    '|${_chompModifier(value)}\n'
+    '${_indentMultilineString(value, _indentation(ctx))}';
+
+String _chompModifier(String value) => value.endsWith('\n') ? '' : '-';
+
+String _indentMultilineString(String value, String indentation) =>
+    value.split('\n').map((s) => '$indentation$s').join('\n');
+
+String _formatSingleLineString(String value, _Context ctx) =>
+    _requiresQuotes(value, ctx.yamlStyle)
+        ? '${_quote[ctx.yamlStyle]}$value${_quote[ctx.yamlStyle]}'
+        : value;
+
+bool _requiresQuotes(String s, YamlStyle yamlStyle) =>
+    _isNumeric(s) ||
+    _isBoolean(s) ||
+    _containsSpecialCharacters(s) ||
+    (yamlStyle == YamlStyle.pubspecLock &&
+        (s.contains('.') || s.contains(' ')));
+
+bool _isNumeric(String s) => s.isNotEmpty && num.tryParse(s) != null;
+
+bool _isBoolean(String s) => _booleanValues.contains(s);
 
 bool _containsSpecialCharacters(String s) =>
     _specialCharacters.any((c) => s.contains(c));
-final _specialCharacters = r':{}[],&*#?|-<>=!%@\'.split('');
+
+const _specialCharacters = {
+  ': ', // Indicates mapping in YAML
+  '[',
+  ']',
+  '{',
+  '}',
+  '>',
+  '!',
+  '*',
+  '&',
+  '|',
+  '%',
+  ' #', // Indicates comment in YAML
+  '`',
+  '@',
+  ',',
+  '?',
+};
+
+const _booleanValues = {
+  '${true}',
+  '${false}',
+};
+
+const _startsOfPubspecYamlLinesKeptTogether = [
+  ' ',
+  '#',
+  'name:',
+  'homepage:',
+  'version',
+  'description:',
+  'documentation:',
+  'repository:',
+  'issue_tracker:',
+  'executables:',
+  'author:',
+  'authors:',
+  'publish_to:',
+];
+
+const _quote = {
+  YamlStyle.generic: '"',
+  YamlStyle.pubspecLock: '"',
+  YamlStyle.pubspecYaml: "'",
+};
