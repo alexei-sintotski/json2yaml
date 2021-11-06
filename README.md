@@ -1,5 +1,15 @@
 # json2yaml [![Build Status](https://travis-ci.com/alexei-sintotski/json2yaml.svg?branch=master)](https://travis-ci.com/alexei-sintotski/json2yaml) [![codecov](https://codecov.io/gh/alexei-sintotski/json2yaml/branch/master/graph/badge.svg)](https://codecov.io/gh/alexei-sintotski/json2yaml) [![pubspec_lock version](https://img.shields.io/pub/v/json2yaml?label=json2yaml)](https://pub.dev/packages/json2yaml)
-Dart package to render JSON data to YAML
+
+Dart package to render JSON data to YAML:
+* Correct handling of nested structures
+* Built-in automatic beautifer
+* Supports Dart pubspec.yaml conventions
+* Compatible with conventions imposed by Dart pubspec.lock generator
+
+## Known limitations
+
+* Strings (single line and multiline) are always formatted as they are,
+without word wrapping for better human readability
 
 ## json2yaml()
 
@@ -21,17 +31,6 @@ json2yaml is the function to format JSON data to YAML.
   };
 
   print(json2yaml(developerData));
-```
-
-This function is implemented in a very basic and perhaps naive way, please let me know if it does not work for you.
-
-## Usage
-
-To use json2yaml, add the following dependency to pubspec.yaml:
-
-```
-dependencies:
-  json2yaml: ^1.0.0
 ```
 
 ## Advanced usage: YAML formatting styles

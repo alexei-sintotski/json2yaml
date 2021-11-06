@@ -1,3 +1,9 @@
+## [3.0.0] - Rewrite for output correctness and beautification
+* Complete rewrite of YAML formatter
+* Correct handling of nested structures
+* Built-in automatic beautifier
+* Improved support of Dart pubspec file formats with dedicated test suites
+
 ## [2.0.0] - Migrated to null safety
 * Kudos to https://github.com/spkersten for help!
 
