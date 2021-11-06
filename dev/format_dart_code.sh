@@ -1,3 +1,3 @@
 #!/bin/bash -ex
 
-dartfmt --overwrite --fix "$@" .
+dart format --fix "$@" .
