@@ -5,7 +5,7 @@ description: |-
   * Built-in automatic beautifer
   * Supports Dart pubspec.yaml conventions
   * Compatible with conventions imposed by Dart pubspec.lock generator
-version: 3.0.0
+version: 3.0.1
 homepage: https://github.com/alexei-sintotski/json2yaml
 
 environment:

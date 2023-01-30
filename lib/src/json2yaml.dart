@@ -178,7 +178,10 @@ bool _requiresQuotes(String s, YamlStyle yamlStyle) =>
     _isBoolean(s) ||
     _containsSpecialCharacters(s) ||
     (yamlStyle == YamlStyle.pubspecLock &&
-        (s.contains('.') || s.contains(' ')));
+        (s.contains('.') ||
+            s.contains(' ') ||
+            s.contains('/') ||
+            s.startsWith(RegExp('[0-9]'))));
 
 bool _isNumeric(String s) => s.isNotEmpty && num.tryParse(s) != null;
 

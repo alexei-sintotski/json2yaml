@@ -1,3 +1,7 @@
+## [3.0.1] - Fixing cases that requires quotes in pubspecLock
+* Added two more cases that requires quotes in pubspecLock files
+* Removed deprecated lint rule (invariant_booleans)
+
 ## [3.0.0] - Rewrite for output correctness and beautification
 * Complete rewrite of YAML formatter
 * Correct handling of nested structures
