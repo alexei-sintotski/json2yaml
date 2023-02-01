@@ -2,9 +2,8 @@ name: Dart
 
 on:
   push:
-    paths: [ ".github/workflows/dart.yml" ]
+    branches: [ "master" ]
   pull_request:
-    paths: [ ".github/workflows/dart.yml" ]
 
 jobs:
   build:
