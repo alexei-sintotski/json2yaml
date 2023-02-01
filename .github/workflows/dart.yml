@@ -2,9 +2,9 @@ name: Dart
 
 on:
   push:
-    branches: [ "master" ]
+    paths: [ ".github/workflows/dart.yml" ]
   pull_request:
-    branches: [ "master" ]
+    paths: [ ".github/workflows/dart.yml" ]
 
 jobs:
   build:
@@ -12,13 +12,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-        with:
-          sdk: 2.18.4
       # Note: This workflow uses the latest stable version of the Dart SDK.
       # You can specify other versions if desired, see documentation here:
       # https://github.com/dart-lang/setup-dart/blob/main/README.md
       # - uses: dart-lang/setup-dart@v1
       - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: 2.18.4
 
       - name: Install dependencies
         run: dart pub get
