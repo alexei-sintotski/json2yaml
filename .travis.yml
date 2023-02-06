@@ -1,7 +1,0 @@
-language: dart
-
-install:
-  - dart pub get
-
-script:
-  - dev/dart_quality_checks.sh
