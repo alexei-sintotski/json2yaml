@@ -1,4 +1,4 @@
-# json2yaml [![Build Status](https://github.com/alexei-sintotski/json2yaml/actions/workflows/dart.yml/badge.svg?branch=master)]() [![pubspec_lock version](https://img.shields.io/pub/v/json2yaml?label=json2yaml)](https://pub.dev/packages/json2yaml)
+# json2yaml [![Build Status](https://github.com/alexei-sintotski/json2yaml/actions/workflows/dart.yml/badge.svg?branch=master)] [![pubspec_lock version](https://img.shields.io/pub/v/json2yaml?label=json2yaml)](https://pub.dev/packages/json2yaml)
 
 Dart package to render JSON data to YAML:
 * Correct handling of nested structures
