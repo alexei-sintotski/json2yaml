@@ -55,7 +55,7 @@ void testFormatPreservation(
 
 void testCase(
   String testCase, {
-  required Map<String, dynamic> json,
+  required Object? json,
   required String yaml,
   YamlStyle yamlStyle = YamlStyle.generic,
 }) =>
