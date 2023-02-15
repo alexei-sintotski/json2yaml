@@ -38,7 +38,7 @@ enum YamlStyle {
 
 /// Converts JSON to YAML representation
 String json2yaml(
-  Map<String, dynamic> json, {
+  Object? json, {
   YamlStyle yamlStyle = YamlStyle.generic,
 }) =>
     _separatePubspecYamlSections(
