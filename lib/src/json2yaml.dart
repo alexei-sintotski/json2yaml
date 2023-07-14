@@ -177,6 +177,7 @@ bool _requiresQuotes(String s, YamlStyle yamlStyle) =>
     _isNumeric(s) ||
     _isBoolean(s) ||
     _containsSpecialCharacters(s) ||
+    s.endsWith(':') ||
     (yamlStyle == YamlStyle.pubspecLock &&
         (s.contains('.') ||
             s.contains(' ') ||

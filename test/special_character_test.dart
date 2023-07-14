@@ -29,7 +29,7 @@ import 'test_utils.dart';
 void main() {
   group('json2yaml', () {
     testCase(
-      'given a string value with $_colon',
+      'given a string value that ends with $_colon',
       json: _valueWithColon,
       yaml: _valueWithColonYaml,
     );
@@ -120,7 +120,7 @@ void main() {
   });
 }
 
-const _colon = ': '; // Indicates mapping in YAML
+const _colon = ':'; // Indicates mapping in YAML
 const _valueWithColon = {
   'windows_drive': 'c$_colon',
 };
