@@ -30,8 +30,18 @@ void main() {
   group('json2yaml', () {
     testCase(
       'given a string value that ends with $_colon',
-      json: _valueWithColon,
-      yaml: _valueWithColonYaml,
+      json: _valueWithColonAtEnd,
+      yaml: _valueWithColonAtEndYaml,
+    );
+    testCase(
+      'given a string value that contains $_colon',
+      json: _valueWithColonInMiddle,
+      yaml: _valueWithColonInMiddleYaml,
+    );
+    testCase(
+      'given a string value that contains "$_colon "',
+      json: _valueWithColonAndSpace,
+      yaml: _valueWithColonAndSpaceYaml,
     );
 
     testCase(
@@ -121,11 +131,23 @@ void main() {
 }
 
 const _colon = ':'; // Indicates mapping in YAML
-const _valueWithColon = {
+const _valueWithColonAtEnd = {
   'windows_drive': 'c$_colon',
 };
-const _valueWithColonYaml = '''
+const _valueWithColonAtEndYaml = '''
 windows_drive: "c$_colon"
+''';
+const _valueWithColonInMiddle = {
+  'windows_drive': 'c$_colon\\Users\\user',
+};
+const _valueWithColonInMiddleYaml = '''
+windows_drive: c$_colon\\Users\\user
+''';
+const _valueWithColonAndSpace = {
+  'windows_drive': 'c$_colon ',
+};
+const _valueWithColonAndSpaceYaml = '''
+windows_drive: "c$_colon "
 ''';
 
 const _squareBrackets = '[]';
