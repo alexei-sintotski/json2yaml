@@ -29,9 +29,19 @@ import 'test_utils.dart';
 void main() {
   group('json2yaml', () {
     testCase(
-      'given a string value with $_colon',
-      json: _valueWithColon,
-      yaml: _valueWithColonYaml,
+      'given a string value that ends with $_colon',
+      json: _valueWithColonAtEnd,
+      yaml: _valueWithColonAtEndYaml,
+    );
+    testCase(
+      'given a string value that contains $_colon',
+      json: _valueWithColonInMiddle,
+      yaml: _valueWithColonInMiddleYaml,
+    );
+    testCase(
+      'given a string value that contains "$_colon "',
+      json: _valueWithColonAndSpace,
+      yaml: _valueWithColonAndSpaceYaml,
     );
 
     testCase(
@@ -117,15 +127,33 @@ void main() {
       json: _valueWithDash,
       yaml: _valueWithDashYaml,
     );
+
+    testCase(
+      'given a string value with quotes',
+      json: _valueWithQuotes,
+      yaml: _valueWithQuotesYaml,
+    );
   });
 }
 
-const _colon = ': '; // Indicates mapping in YAML
-const _valueWithColon = {
+const _colon = ':'; // Indicates mapping in YAML
+const _valueWithColonAtEnd = {
   'windows_drive': 'c$_colon',
 };
-const _valueWithColonYaml = '''
+const _valueWithColonAtEndYaml = '''
 windows_drive: "c$_colon"
+''';
+const _valueWithColonInMiddle = {
+  'windows_drive': 'c$_colon\\Users\\user',
+};
+const _valueWithColonInMiddleYaml = '''
+windows_drive: c$_colon\\Users\\user
+''';
+const _valueWithColonAndSpace = {
+  'windows_drive': 'c$_colon ',
+};
+const _valueWithColonAndSpaceYaml = '''
+windows_drive: "c$_colon "
 ''';
 
 const _squareBrackets = '[]';
@@ -210,4 +238,11 @@ const _dash = '-';
 const _valueWithDash = {'value': _hash};
 const _valueWithDashYaml = '''
 value: "$_hash"
+''';
+
+const _valueWithQuotes = {
+  'tapNewButton': 'Tap the "New" button!',
+};
+const _valueWithQuotesYaml = r'''
+tapNewButton: "Tap the \"New\" button!"
 ''';

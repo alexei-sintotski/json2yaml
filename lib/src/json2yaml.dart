@@ -168,15 +168,21 @@ String _chompModifier(String value) => value.endsWith('\n') ? '' : '-';
 String _indentMultilineString(String value, String indentation) =>
     value.split('\n').map((s) => '$indentation$s').join('\n');
 
-String _formatSingleLineString(String value, _Context ctx) =>
-    _requiresQuotes(value, ctx.yamlStyle)
-        ? '${_quote[ctx.yamlStyle]}$value${_quote[ctx.yamlStyle]}'
-        : value;
+String _formatSingleLineString(String value, _Context ctx) {
+  if (_requiresQuotes(value, ctx.yamlStyle)) {
+    final quote = _quote[ctx.yamlStyle]!;
+    final valueEscaped = value.replaceAll(quote, '\\$quote');
+    return '$quote$valueEscaped$quote';
+  } else {
+    return value;
+  }
+}
 
 bool _requiresQuotes(String s, YamlStyle yamlStyle) =>
     _isNumeric(s) ||
     _isBoolean(s) ||
     _containsSpecialCharacters(s) ||
+    s.endsWith(':') ||
     (yamlStyle == YamlStyle.pubspecLock &&
         (s.contains('.') ||
             s.contains(' ') ||
