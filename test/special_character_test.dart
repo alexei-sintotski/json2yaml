@@ -127,6 +127,12 @@ void main() {
       json: _valueWithDash,
       yaml: _valueWithDashYaml,
     );
+
+    testCase(
+      'given a string value with quotes',
+      json: _valueWithQuotes,
+      yaml: _valueWithQuotesYaml,
+    );
   });
 }
 
@@ -232,4 +238,11 @@ const _dash = '-';
 const _valueWithDash = {'value': _hash};
 const _valueWithDashYaml = '''
 value: "$_hash"
+''';
+
+const _valueWithQuotes = {
+  'tapNewButton': 'Tap the "New" button!',
+};
+const _valueWithQuotesYaml = r'''
+tapNewButton: "Tap the \"New\" button!"
 ''';
